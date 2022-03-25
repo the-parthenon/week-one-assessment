@@ -18,16 +18,26 @@ console.log(`
                                                         
 Welcome to the Password Authenticator, ${userName}!
 Valid passwords must contain at least 10 characters, 
-including any Capital letter and the letter "q."
-Spaces are not permitted.`)
+including at least one Uppercase letter, at least one number
+and the letter "q." Spaces are not permitted.`)
 
 reader.question("Please enter your password to see if it is valid:  ", function(input){
 	let passwordLength = input.length;
     let hasUpperCase = false;
     let hasQ = false;
+    let hasNumber = false;
     let noSpaces = false;
+
+    //Checks to see if there is a number in the password string.
+    for( let i = 0; i < input.length; i++){
+        if(!isNaN(input.charAt(i)) === true){
+          hasNumber = true;
+        }
+    // console.log(hasNumber)
+    }
     
-    input = input.replace(/\s/g, '');
+    //Checks to see if there are spaces in password by replacing any whitespace from input and comparing the new length with previously stored passwordLength.    
+    input = input.replace(/\s/, '');
     if (input.length === passwordLength){
         noSpaces = true;
     }
@@ -52,7 +62,7 @@ reader.question("Please enter your password to see if it is valid:  ", function(
     }
         
     
-    if(passwordLength >= 10 && hasUpperCase === true && hasQ === true && noSpaces === true){
+    if(passwordLength >= 10 && hasUpperCase === true && hasQ === true && noSpaces === true && hasNumber === true){
         console.log(`
           _____ __ __    __    __    ___  _____ _____
          / ___/|  |  |  /  ]  /  ]  /  _]/ ___// ___/
@@ -69,6 +79,9 @@ reader.question("Please enter your password to see if it is valid:  ", function(
         }
         else if(hasUpperCase === false){
             console.log("Pay attention.  Your password requires an Uppercase letter!")
+        }
+        else if(hasNumber === false){
+            console.log("Letters alone will not suffice.")
         }
         else if(hasQ === false){
             console.log("Unacceptable!!  Password must contain the letter q.")
